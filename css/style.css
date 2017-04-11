@@ -1,0 +1,60 @@
+/* Stylesheet by AAIverson, Mar.2017 */
+
+.map {
+    border: medium solid #999;
+    box-shadow: 2px 2px 4px #999;
+}
+
+.statesMap {
+    stroke: #000;
+    stroke-width: 0.35px;
+    stroke-linecap: round;
+}
+
+.chartTitle {
+    font-family: serif;
+    font-size: 12pt;
+    font-weight: bold;
+
+}
+
+.numbers {
+    fill: black;
+    font-family: sans-serif;
+    font-size: 6.5pt;
+    font-weight: bold;
+}
+
+.dropdown {
+    position: absolute; /*position the dropdown <select> element absolutely so that it is not affected by other elements on the page */
+    top: 60px; /*top and left styles to position it down and to the right of the top-left corner of the page*/
+    left: 20px;
+    z-index: 10;/* Adding a z-index of 10 ensures that it floats to the top of all other elements on the page*/
+    font-family: serif;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 2.5px; /*around the text*/
+    border: 1px solid #999;
+    box-shadow: 2px 2px 4px #999;
+}
+
+.option {
+    font-weight: normal;
+}
+
+.infolabel {
+    position: absolute;
+    height: 50px;
+    min-width: 100px;
+    color: #fff;
+    background-color: #000;
+    border: solid thin #fff;
+    padding: 5px 10px;
+}
+
+.infolabel h1 {
+    margin: 0 20px 0 0;
+    padding: 0;
+    display: inline-block;
+    line-height: 1em;
+}
