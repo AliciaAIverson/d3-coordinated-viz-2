@@ -74,6 +74,9 @@ function setMap(){
         //add menu to map 
         createDropdown(kidscount2015);
 
+        //add dynamic labels
+        setLabel(props);
+
     };
 
 }; //end of setMap()
@@ -149,7 +152,7 @@ function setEnumerationUnits(US, map, path, colorScale){
         .enter()
         .append("path")
         .attr("class", function(d){
-            return "statesMap " + d.properties.adm1_code;
+            return "statesMap _" + d.properties.adm1_code;
         })
         .attr("d", path)
         // .style("fill", function(d){
@@ -159,8 +162,13 @@ function setEnumerationUnits(US, map, path, colorScale){
             return choropleth(d.properties, colorScale)
         })
         .on("mouseover", function(d){
-            highlight(d.properties);
+            highlight(d.properties)
+        })
+        .on("mouseout", function(d){
+            dehighlight(d.properties)
         });
+    var desc = statesMap.append("desc")
+        .text('{"stroke": "#000", "stroke-width": "0.5px"}')
 
 };
 
@@ -180,10 +188,34 @@ function choropleth(props, colorScale){
 
 //function to highlight enumeration units and bars
 function highlight(props){
-    //change stroke
-    var selected = d3.selectAll("." + props.adm1_code)
-        .style("stroke", "blue")
-        .style("stroke-width", "2");
+    //change stroke... append ._ to change from number for interpretation
+    var selected = d3.selectAll("._" + props.adm1_code)
+        .style("stroke", "gold")
+        .style("stroke-width", "5");
+};
+
+//function to reset the element style on mouseout
+function dehighlight(props){
+    //append ._ to change from number for interpretation
+    var selected = d3.selectAll("._" + props.adm1_code)
+        //below Example 2.4 line 21...remove info label
+        .style("stroke", function(){
+            return getStyle(this, "stroke")
+        })
+        .style("stroke-width", function(){
+            return getStyle(this, "stroke-width")
+        });
+
+    function getStyle(element, styleName){
+        var styleText = d3.select(element)
+            .select("desc")
+            .text();
+
+        var styleObject = JSON.parse(styleText);
+
+        return styleObject[styleName];
+    };
+    d3.select(".infolabel").remove();
 };
 
 //function to create coordinated bar chart
@@ -211,10 +243,11 @@ function setChart(kidscount2015, colorScale){
             return a[expressed]-b[expressed]
         })
         .attr("class", function(d){
-            return "bar " + d.adm_1_code;
+            return "bar _" + d.adm1_code; //doesn't like numbers, so have to "append" _ to get the highlight to work
         })
         .attr("width", chartWidth / kidscount2015.length - .5) // 1/n-1 pixels for gap between bars
         .on("mouseover", highlight)
+        .on("mouseout", dehighlight)
         .attr("x", function(d, i){
             return i * (chartWidth / kidscount2015.length);
         })
@@ -226,7 +259,10 @@ function setChart(kidscount2015, colorScale){
         })
         .style("fill", function(d){
             return choropleth(d, colorScale)
-        });
+        })
+        var desc = bars.append("desc")
+        .text('{"stroke": "none", "stroke-width": "0px"}');
+
         
 
     //annotate bars with attribute value text
@@ -337,6 +373,24 @@ function updateChart(bars, n, colorScale){
     var chartTitle = d3.select(".chartTitle")
         .text(expressed + " for each US State");
 
+};
+
+//function to create dynamic label
+function setLabel(props){
+    //label content
+    var labelAttribute = "<h1>" + props[expressed] +
+        "</h1><b>" + expressed + "</b>";
+
+    //create info label div
+    var infolabel = d3.select("body")
+        .append("div")
+        .attr("class", "infolabel")
+        .attr("id", props.adm1_code + "_label")
+        .html(labelAttribute);
+
+    var regionName = infolabel.append("div")
+        .attr("class", "labelname")
+        .html(props.name);
 };
 
 
