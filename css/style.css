@@ -27,7 +27,7 @@
 
 .dropdown {
     position: absolute; /*position the dropdown <select> element absolutely so that it is not affected by other elements on the page */
-    top: 60px; /*top and left styles to position it down and to the right of the top-left corner of the page*/
+    top: 115px; /*top and left styles to position it down and to the right of the top-left corner of the page*/
     left: 20px;
     z-index: 10;/* Adding a z-index of 10 ensures that it floats to the top of all other elements on the page*/
     font-family: serif;

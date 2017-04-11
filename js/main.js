@@ -11,7 +11,7 @@ var attrArray = ["ChildWellBeingOverallRank", "EconomicWellBeingRank", "Educatio
 var expressed = attrArray[0]; //initial attribute
 
 //chart frame dimensions
-var chartWidth = window.innerWidth * 0.75,
+var chartWidth = window.innerWidth * .75,
     chartHeight = 150;
 
 //create a scale to size bars proportionally to frame
@@ -25,7 +25,7 @@ window.onload = setMap();
 //Example 1.3 line 4...set up choropleth map
 function setMap(){
     //map frame dimensions
-    var width = 960,
+    var width = window.innerWidth *0.75,
         height = 600;
 
     //create new svg container for the map
